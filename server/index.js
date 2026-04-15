@@ -12,8 +12,16 @@ connectDb()
 
 app.use(express.json())
 app.use(cors({
-    origin: process.env.ORIGIN ? process.env.ORIGIN.split(',') : ['http://localhost:5173'],
-    credentials:true
+    origin: function (origin, callback) {
+        const allowedOrigins = process.env.ORIGIN ? process.env.ORIGIN.split(',') : [];
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
 }))
 app.use(cookieParser())
 
