@@ -12,7 +12,7 @@ connectDb()
 
 app.use(express.json())
 app.use(cors({
-    origin:[process.env.ORIGIN,'https://shopping-cart-mern-yo9j.vercel.app'],
+    origin: process.env.ORIGIN ? process.env.ORIGIN.split(',') : ['http://localhost:5173'],
     credentials:true
 }))
 app.use(cookieParser())
